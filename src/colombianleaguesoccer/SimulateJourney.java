@@ -82,34 +82,17 @@ public class SimulateJourney extends javax.swing.JFrame {
 
     public void validateTxtFields() {
         for (int i = 0; i <= arrayResultText.length - 1; i++) {
-            final int pos = i;
-            arrayResultText[i][0].getDocument().addDocumentListener(new DocumentListener() {
-                public void insertUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][0]);
-                }
-
-                public void removeUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][0]);
-                }
-
-                public void changedUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][0]);
-                }
-            });
-            arrayResultText[i][1].getDocument().addDocumentListener(new DocumentListener() {
-                public void insertUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][1]);
-                }
-
-                public void removeUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][1]);
-                }
-
-                public void changedUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][1]);
-                }
-            });
+            arrayResultText[i][0].getDocument().addDocumentListener(createFieldValidator(arrayResultText[i][0]));
+            arrayResultText[i][1].getDocument().addDocumentListener(createFieldValidator(arrayResultText[i][1]));
         }
+    }
+
+    private DocumentListener createFieldValidator(javax.swing.JTextField field) {
+        return new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { validateText(field); }
+            public void removeUpdate(DocumentEvent e) { validateText(field); }
+            public void changedUpdate(DocumentEvent e) { validateText(field); }
+        };
     }
 
     private void validateText(javax.swing.JTextField txtField) {
@@ -133,7 +116,7 @@ public class SimulateJourney extends javax.swing.JFrame {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9') || isValidText) && (c != KeyEvent.VK_BACK_SPACE)) {
+                if ((!Character.isDigit(c) || isValidText) && c != KeyEvent.VK_BACK_SPACE) {
                     e.consume();
                 }
 
@@ -497,11 +480,6 @@ public class SimulateJourney extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void txtResult1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResult1KeyPressed
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (Character.isLetter(c)) {
-
-        }
     }//GEN-LAST:event_txtResult1KeyPressed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
@@ -524,13 +502,7 @@ public class SimulateJourney extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
