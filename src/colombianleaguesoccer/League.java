@@ -10,6 +10,8 @@ public class League {
     private Match match;
     private List<Journey> journeys;
     private int actualJourney;
+    private static final int JOURNEY_COUNT = 19;
+    private static final int MATCHES_PER_JOURNEY = 10;
 
     public League() {
         initTeams();
@@ -47,14 +49,14 @@ public class League {
     }
 
     public void updateTeamPositions() {
-        Collections.sort(teams, (firstTeam, secondTeam) -> Integer.compare(secondTeam.getPoints(), firstTeam.getPoints()));
+        Collections.sort(teams, (firstTeam, secondTeam) -> Integer.compare(secondTeam.getStats().getPoints(), firstTeam.getStats().getPoints()));
         int actualPosition = 1;
-        int previousPoints = teams.get(0).getPoints();
+        int previousPoints = teams.get(0).getStats().getPoints();
 
         for (Team actualTeam : teams) {
-            if (actualTeam.getPoints() != previousPoints) {
+            if (actualTeam.getStats().getPoints() != previousPoints) {
                 actualPosition += 1;
-                previousPoints = actualTeam.getPoints();
+                previousPoints = actualTeam.getStats().getPoints();
             }
             actualTeam.setPositionTeam(actualPosition);
         }
@@ -62,26 +64,40 @@ public class League {
 
     public void initJourneys() {
         actualJourney = 0;
-        List<Team> copy = new ArrayList(teams);
-        journeys = new ArrayList<>();
-        for (int i = 1; i <= 19; i++) {
-            journeys.add(new Journey(i));
-        }
+        journeys = buildEmptyJourneys();
+        List<Team> rotation = new ArrayList<>(teams);
         for (Journey journey : journeys) {
-            for (Team copyTeam : copy) {
-                for (Team team : copy) {
-                    if (journey.getMatches().size() < 10) {
-                        if (copyTeam.getNextMatches().contains(team) && journey.isAvaiableTeam(copyTeam) && journey.isAvaiableTeam(team)) {
-                            journey.addMatch(new Match(team, copyTeam));
-                            copyTeam.removeNextMatchTeamOption(team);
-                        }
-                    }
+            fillJourney(journey, rotation);
+            Collections.rotate(rotation, -1);
+        }
+    }
+
+    private List<Journey> buildEmptyJourneys() {
+        List<Journey> result = new ArrayList<>();
+        for (int i = 1; i <= JOURNEY_COUNT; i++) {
+            result.add(new Journey(i));
+        }
+        return result;
+    }
+
+    private void fillJourney(Journey journey, List<Team> pool) {
+        for (Team copyTeam : pool) {
+            if (journey.getMatches().size() >= MATCHES_PER_JOURNEY) {
+                return;
+            }
+            for (Team rival : pool) {
+                if (canPair(journey, copyTeam, rival)) {
+                    journey.addMatch(new Match(rival, copyTeam));
+                    copyTeam.removeNextMatchTeamOption(rival);
                 }
             }
-            Team firstTeam = copy.get(0);
-            copy.remove(firstTeam);
-            copy.add(firstTeam);
         }
+    }
+
+    private boolean canPair(Journey journey, Team copyTeam, Team rival) {
+        return copyTeam.getNextMatches().contains(rival)
+                && journey.isAvailableTeam(copyTeam)
+                && journey.isAvailableTeam(rival);
     }
     
     public boolean isFinalized(){

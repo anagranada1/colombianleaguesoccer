@@ -21,7 +21,7 @@ public class Journey {
         this.id = id;
     }
 
-    public boolean isAvaiableTeam(Team team) {
+    public boolean isAvailableTeam(Team team) {
         for (Match match : matches) {
             if (match.getFirstTeam() == team || match.getSecondTeam() == team) {
                 return false;
