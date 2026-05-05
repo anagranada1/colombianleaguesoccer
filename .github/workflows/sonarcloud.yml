@@ -98,6 +98,8 @@ jobs:
             -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY || 'ana2002granada_ColombianLeagueSoccer' }}
             -Dsonar.projectName=ColombianLeagueSoccer
             -Dsonar.sources=src
+            -Dsonar.exclusions=**/Main.java,**/SimulateJourney.java
+            -Dsonar.coverage.exclusions=**/Main.java,**/SimulateJourney.java
             -Dsonar.tests=test
             -Dsonar.java.binaries=build/classes
             -Dsonar.java.test.binaries=build/test/classes
