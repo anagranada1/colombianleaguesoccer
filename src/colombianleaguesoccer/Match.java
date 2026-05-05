@@ -58,20 +58,20 @@ public class Match {
 
     public void setResult() {
         Team winner = this.getWinnerMatch();
-        this.firstTeam.setGoalsScored(this.firstTeamGoals);
-        this.secondTeam.setGoalsScored(this.secondTeamGoals);
-        this.firstTeam.setGoalsConceded(this.secondTeamGoals);
-        this.secondTeam.setGoalsConceded(this.firstTeamGoals);
-        this.firstTeam.setMatchPlayed(1);
-        this.secondTeam.setMatchPlayed(1);
+        this.firstTeam.getStats().setGoalsScored(this.firstTeamGoals);
+        this.secondTeam.getStats().setGoalsScored(this.secondTeamGoals);
+        this.firstTeam.getStats().setGoalsConceded(this.secondTeamGoals);
+        this.secondTeam.getStats().setGoalsConceded(this.firstTeamGoals);
+        this.firstTeam.getStats().setMatchPlayed(1);
+        this.secondTeam.getStats().setMatchPlayed(1);
         if (winner == null) {
-            this.firstTeam.setPoints(1);
-            this.secondTeam.setPoints(1);
-            this.firstTeam.setDrawMatches(1);
-            this.secondTeam.setDrawMatches(1);
+            this.firstTeam.getStats().setPoints(1);
+            this.secondTeam.getStats().setPoints(1);
+            this.firstTeam.getStats().setDrawMatches(1);
+            this.secondTeam.getStats().setDrawMatches(1);
         } else {
-            winner.setPoints(3);
-            winner.setWonMatches(1);
+            winner.getStats().setPoints(3);
+            winner.getStats().setWonMatches(1);
         }
     }
 
