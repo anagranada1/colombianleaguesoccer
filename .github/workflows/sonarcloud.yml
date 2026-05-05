@@ -104,6 +104,4 @@ jobs:
             -Dsonar.java.source=18
             -Dsonar.sourceEncoding=UTF-8
             -Dsonar.coverage.jacoco.xmlReportPaths=build/jacoco.xml
-            -Dsonar.exclusions=src/colombianleaguesoccer/Main.java,src/colombianleaguesoccer/SimulateJourney.java
-            -Dsonar.coverage.exclusions=src/colombianleaguesoccer/Main.java,src/colombianleaguesoccer/SimulateJourney.java
             -Dsonar.junit.reportPaths=build/test-reports
