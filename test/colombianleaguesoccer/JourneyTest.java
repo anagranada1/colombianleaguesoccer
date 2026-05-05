@@ -8,7 +8,7 @@ public class JourneyTest {
     @Test
     public void teamIsAvailableWhenItHasNoMatchYet() {
         Journey journey = new Journey(1);
-        assertTrue(journey.isAvaiableTeam(new Team("Nacional", 5)));
+        assertTrue(journey.isAvailableTeam(new Team("Nacional", 5)));
     }
 
     @Test
@@ -17,7 +17,7 @@ public class JourneyTest {
         Team home = new Team("A", 1);
         journey.addMatch(new Match(home, new Team("B", 2)));
 
-        assertFalse(journey.isAvaiableTeam(home));
+        assertFalse(journey.isAvailableTeam(home));
     }
 
     @Test
@@ -26,7 +26,7 @@ public class JourneyTest {
         Team away = new Team("B", 2);
         journey.addMatch(new Match(new Team("A", 1), away));
 
-        assertFalse(journey.isAvaiableTeam(away));
+        assertFalse(journey.isAvailableTeam(away));
     }
 
     @Test

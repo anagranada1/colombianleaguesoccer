@@ -71,7 +71,7 @@ public class League {
             for (Team copyTeam : copy) {
                 for (Team team : copy) {
                     if (journey.getMatches().size() < 10) {
-                        if (copyTeam.getNextMatches().contains(team) && journey.isAvaiableTeam(copyTeam) && journey.isAvaiableTeam(team)) {
+                        if (copyTeam.getNextMatches().contains(team) && journey.isAvailableTeam(copyTeam) && journey.isAvailableTeam(team)) {
                             journey.addMatch(new Match(team, copyTeam));
                             copyTeam.removeNextMatchTeamOption(team);
                         }
