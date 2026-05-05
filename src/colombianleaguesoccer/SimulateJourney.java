@@ -1,8 +1,6 @@
 package colombianleaguesoccer;
 
 import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -96,32 +94,18 @@ public class SimulateJourney extends javax.swing.JFrame {
     }
 
     private void validateText(javax.swing.JTextField txtField) {
-        isValidText = false;
-        if (!txtField.getText().isEmpty()) {
-            try {
-                int value = Integer.parseInt(txtField.getText());
-                if (value < 0 || value > 9) {
-                    txtField.setBackground(new Color(255, 102, 102));
-                } else {
-                    txtField.setBackground(Color.WHITE);
-                    isValidText = true;
-                }
-            } catch (NumberFormatException ex) {
-                txtField.setBackground(new Color(255, 102, 102));
-            }
-        } else {
-            txtField.setBackground(new Color(255, 102, 102));
-        }
-        txtField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if ((!Character.isDigit(c) || isValidText) && c != KeyEvent.VK_BACK_SPACE) {
-                    e.consume();
-                }
+        isValidText = isGoalValid(txtField.getText());
+        txtField.setBackground(isValidText ? Color.WHITE : new Color(255, 102, 102));
+    }
 
-            }
-        });
+    private boolean isGoalValid(String text) {
+        if (text.isEmpty()) return false;
+        try {
+            int value = Integer.parseInt(text);
+            return value >= 0 && value <= 9;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 
     public void simulateGoals() {
@@ -508,11 +492,7 @@ public class SimulateJourney extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SimulateJourney().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new SimulateJourney().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
