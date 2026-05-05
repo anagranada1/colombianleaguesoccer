@@ -9,12 +9,13 @@ import javax.swing.event.DocumentListener;
 public class SimulateJourney extends javax.swing.JFrame {
     
     
+    private static final Color INVALID_COLOR = new Color(255, 102, 102);
+
     private Journey journey;
     private javax.swing.JLabel[][] arrayTeamLabels;
     private javax.swing.JTextField[][] arrayResultText;
     private League league;
     private Main mainFrame;
-    private boolean isValidText = false;
 
     public void setMainFrame(Main mainFrame) {
         this.mainFrame = mainFrame;
@@ -41,8 +42,8 @@ public class SimulateJourney extends javax.swing.JFrame {
         for (int i = 0; i < 10; i++) {
             arrayTeamLabels[i][0].setText(journey.getMatches().get(i).getFirstTeam().getName());
             arrayTeamLabels[i][1].setText(journey.getMatches().get(i).getSecondTeam().getName());
-            arrayResultText[i][0].setText(journey.getMatches().get(i).getFirstTeamGoals() + "");
-            arrayResultText[i][1].setText(journey.getMatches().get(i).getSecondTeamGoals() + "");
+            arrayResultText[i][0].setText(String.valueOf(journey.getMatches().get(i).getFirstTeamGoals()));
+            arrayResultText[i][1].setText(String.valueOf(journey.getMatches().get(i).getSecondTeamGoals()));
         }
     }
 
@@ -79,7 +80,7 @@ public class SimulateJourney extends javax.swing.JFrame {
     }
 
     public void validateTxtFields() {
-        for (int i = 0; i <= arrayResultText.length - 1; i++) {
+        for (int i = 0; i < arrayResultText.length; i++) {
             arrayResultText[i][0].getDocument().addDocumentListener(createFieldValidator(arrayResultText[i][0]));
             arrayResultText[i][1].getDocument().addDocumentListener(createFieldValidator(arrayResultText[i][1]));
         }
@@ -93,9 +94,10 @@ public class SimulateJourney extends javax.swing.JFrame {
         };
     }
 
-    private void validateText(javax.swing.JTextField txtField) {
-        isValidText = isGoalValid(txtField.getText());
-        txtField.setBackground(isValidText ? Color.WHITE : new Color(255, 102, 102));
+    private boolean validateText(javax.swing.JTextField txtField) {
+        boolean valid = isGoalValid(txtField.getText());
+        txtField.setBackground(valid ? Color.WHITE : INVALID_COLOR);
+        return valid;
     }
 
     private boolean isGoalValid(String text) {
@@ -112,7 +114,7 @@ public class SimulateJourney extends javax.swing.JFrame {
         Random rand = new Random();
         for (int i = 0; i < arrayResultText.length; i++) {
             for (int j = 0; j < arrayResultText[i].length; j++) {
-                arrayResultText[i][j].setText(rand.nextInt(0, 10) + "");
+                arrayResultText[i][j].setText(String.valueOf(rand.nextInt(0, 10)));
             }
         }
     }
@@ -445,8 +447,7 @@ public class SimulateJourney extends javax.swing.JFrame {
         for (int i = 0; i < arrayResultText.length; i++) {
             Match actualMatch = journey.getMatches().get(i);
             for (int j = 0; j < arrayResultText[i].length; j++) {
-                validateText(arrayResultText[i][j]);
-                if (isValidText == false) {
+                if (!validateText(arrayResultText[i][j])) {
                     JOptionPane.showMessageDialog(null, "Please, write only numbers between 0 to 9");
                     return;
                 }
@@ -463,6 +464,7 @@ public class SimulateJourney extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_btnConfirmActionPerformed
 
+    @SuppressWarnings("java:S1186")
     private void txtResult1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResult1KeyPressed
     }//GEN-LAST:event_txtResult1KeyPressed
 
@@ -473,7 +475,7 @@ public class SimulateJourney extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
