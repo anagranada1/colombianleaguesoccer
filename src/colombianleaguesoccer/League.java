@@ -3,11 +3,12 @@ package colombianleaguesoccer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class League {
 
     private List<Team> teams;
-    private Match match;
     private List<Journey> journeys;
     private int actualJourney;
     private static final int JOURNEY_COUNT = 19;
@@ -41,11 +42,11 @@ public class League {
         teams.add(new Team("Millonarios", 18));
         teams.add(new Team("Once Caldas", 19));
         teams.add(new Team("Patriotas FC", 20));
-        for (Team team : teams) {
+        teams.forEach(team -> {
             List<Team> aux = new ArrayList<>(teams);
             aux.remove(team);
             team.setNextMatches(aux);
-        }
+        });
     }
 
     public void updateTeamPositions() {
@@ -66,32 +67,31 @@ public class League {
         actualJourney = 0;
         journeys = buildEmptyJourneys();
         List<Team> rotation = new ArrayList<>(teams);
-        for (Journey journey : journeys) {
+        journeys.forEach(journey -> {
             fillJourney(journey, rotation);
             Collections.rotate(rotation, -1);
-        }
+        });
     }
 
     private List<Journey> buildEmptyJourneys() {
-        List<Journey> result = new ArrayList<>();
-        for (int i = 1; i <= JOURNEY_COUNT; i++) {
-            result.add(new Journey(i));
-        }
-        return result;
+        return IntStream.rangeClosed(1, JOURNEY_COUNT)
+                        .mapToObj(Journey::new)
+                        .collect(Collectors.toList());
     }
 
     private void fillJourney(Journey journey, List<Team> pool) {
-        for (Team copyTeam : pool) {
-            if (journey.getMatches().size() >= MATCHES_PER_JOURNEY) {
-                return;
-            }
-            for (Team rival : pool) {
-                if (canPair(journey, copyTeam, rival)) {
-                    journey.addMatch(new Match(rival, copyTeam));
-                    copyTeam.removeNextMatchTeamOption(rival);
-                }
-            }
-        }
+        pool.stream()
+            .takeWhile(t -> journey.getMatches().size() < MATCHES_PER_JOURNEY)
+            .forEach(copyTeam -> pairWithRivals(journey, copyTeam, pool));
+    }
+
+    private void pairWithRivals(Journey journey, Team copyTeam, List<Team> pool) {
+        pool.stream()
+            .filter(rival -> canPair(journey, copyTeam, rival))
+            .forEach(rival -> {
+                journey.addMatch(new Match(rival, copyTeam));
+                copyTeam.removeNextMatchTeamOption(rival);
+            });
     }
 
     private boolean canPair(Journey journey, Team copyTeam, Team rival) {
@@ -128,12 +128,5 @@ public class League {
         this.teams = teams;
     }
 
-    public Match getMatch() {
-        return match;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }
 
 }
