@@ -1,0 +1,592 @@
+package colombianleaguesoccer;
+
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Random;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+public class SimulateJourney extends javax.swing.JFrame {
+    
+    
+    private Journey journey;
+    private javax.swing.JLabel[][] arrayTeamLabels;
+    private javax.swing.JTextField[][] arrayResultText;
+    private League league;
+    private Main mainFrame;
+    private boolean isValidText = false;
+
+    public void setMainFrame(Main mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+
+    public League getLeague() {
+        return league;
+    }
+
+    public void setLeague(League league) {
+        this.league = league;
+    }
+
+    public Journey getJourney() {
+        return journey;
+    }
+
+    public void setJourney(Journey journey) {
+        this.journey = journey;
+    }
+
+    public void setJourneyData() {
+        lblTitle.setText("JOURNEY #" + journey.getId());
+        for (int i = 0; i < 10; i++) {
+            arrayTeamLabels[i][0].setText(journey.getMatches().get(i).getFirstTeam().getName());
+            arrayTeamLabels[i][1].setText(journey.getMatches().get(i).getSecondTeam().getName());
+            arrayResultText[i][0].setText(journey.getMatches().get(i).getFirstTeamGoals() + "");
+            arrayResultText[i][1].setText(journey.getMatches().get(i).getSecondTeamGoals() + "");
+        }
+    }
+
+    public void initArrayTeamLabels() {
+        javax.swing.JLabel[][] arrayTeamLabels = {
+            {lblTeam1, lblTeam2},
+            {lblTeam3, lblTeam4},
+            {lblTeam5, lblTeam6},
+            {lblTeam7, lblTeam8},
+            {lblTeam9, lblTeam10},
+            {lblTeam11, lblTeam12},
+            {lblTeam13, lblTeam14},
+            {lblTeam15, lblTeam16},
+            {lblTeam17, lblTeam18},
+            {lblTeam19, lblTeam20}
+        };
+        this.arrayTeamLabels = arrayTeamLabels;
+    }
+
+    public void initArrayResultText() {
+        javax.swing.JTextField[][] arrayResultText = {
+            {txtResult1, txtResult2},
+            {txtResult3, txtResult4},
+            {txtResult5, txtResult6},
+            {txtResult7, txtResult8},
+            {txtResult9, txtResult10},
+            {txtResult11, txtResult12},
+            {txtResult13, txtResult14},
+            {txtResult15, txtResult16},
+            {txtResult17, txtResult18},
+            {txtResult19, txtResult20}
+        };
+        this.arrayResultText = arrayResultText;
+    }
+
+    public void validateTxtFields() {
+        for (int i = 0; i <= arrayResultText.length - 1; i++) {
+            final int pos = i;
+            arrayResultText[i][0].getDocument().addDocumentListener(new DocumentListener() {
+                public void insertUpdate(DocumentEvent e) {
+                    validateText(arrayResultText[pos][0]);
+                }
+
+                public void removeUpdate(DocumentEvent e) {
+                    validateText(arrayResultText[pos][0]);
+                }
+
+                public void changedUpdate(DocumentEvent e) {
+                    validateText(arrayResultText[pos][0]);
+                }
+            });
+            arrayResultText[i][1].getDocument().addDocumentListener(new DocumentListener() {
+                public void insertUpdate(DocumentEvent e) {
+                    validateText(arrayResultText[pos][1]);
+                }
+
+                public void removeUpdate(DocumentEvent e) {
+                    validateText(arrayResultText[pos][1]);
+                }
+
+                public void changedUpdate(DocumentEvent e) {
+                    validateText(arrayResultText[pos][1]);
+                }
+            });
+        }
+    }
+
+    private void validateText(javax.swing.JTextField txtField) {
+        isValidText = false;
+        if (!txtField.getText().isEmpty()) {
+            try {
+                int value = Integer.parseInt(txtField.getText());
+                if (value < 0 || value > 9) {
+                    txtField.setBackground(new Color(255, 102, 102));
+                } else {
+                    txtField.setBackground(Color.WHITE);
+                    isValidText = true;
+                }
+            } catch (NumberFormatException ex) {
+                txtField.setBackground(new Color(255, 102, 102));
+            }
+        } else {
+            txtField.setBackground(new Color(255, 102, 102));
+        }
+        txtField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9') || isValidText) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+
+            }
+        });
+    }
+
+    public void simulateGoals() {
+        Random rand = new Random();
+        for (int i = 0; i < arrayResultText.length; i++) {
+            for (int j = 0; j < arrayResultText[i].length; j++) {
+                arrayResultText[i][j].setText(rand.nextInt(0, 10) + "");
+            }
+        }
+    }
+
+    public SimulateJourney() {
+        initComponents();
+        initArrayTeamLabels();
+        initArrayResultText();
+        validateTxtFields();
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        lblTeam2 = new javax.swing.JLabel();
+        lblTeam1 = new javax.swing.JLabel();
+        lblTeam3 = new javax.swing.JLabel();
+        lblTeam4 = new javax.swing.JLabel();
+        lblTeam5 = new javax.swing.JLabel();
+        lblTeam6 = new javax.swing.JLabel();
+        lblTeam7 = new javax.swing.JLabel();
+        lblTeam8 = new javax.swing.JLabel();
+        lblTeam9 = new javax.swing.JLabel();
+        lblTeam10 = new javax.swing.JLabel();
+        lblTeam11 = new javax.swing.JLabel();
+        lblTeam12 = new javax.swing.JLabel();
+        lblTeam13 = new javax.swing.JLabel();
+        lblTeam14 = new javax.swing.JLabel();
+        lblTeam15 = new javax.swing.JLabel();
+        lblTeam16 = new javax.swing.JLabel();
+        lblTeam17 = new javax.swing.JLabel();
+        lblTeam18 = new javax.swing.JLabel();
+        lblTeam19 = new javax.swing.JLabel();
+        lblTeam20 = new javax.swing.JLabel();
+        btnSimulateResults = new javax.swing.JButton();
+        lblTitle = new javax.swing.JLabel();
+        btnConfirm = new javax.swing.JButton();
+        txtResult2 = new javax.swing.JTextField();
+        txtResult1 = new javax.swing.JTextField();
+        txtResult3 = new javax.swing.JTextField();
+        txtResult4 = new javax.swing.JTextField();
+        txtResult5 = new javax.swing.JTextField();
+        txtResult6 = new javax.swing.JTextField();
+        txtResult7 = new javax.swing.JTextField();
+        txtResult8 = new javax.swing.JTextField();
+        txtResult9 = new javax.swing.JTextField();
+        txtResult10 = new javax.swing.JTextField();
+        txtResult11 = new javax.swing.JTextField();
+        txtResult12 = new javax.swing.JTextField();
+        txtResult13 = new javax.swing.JTextField();
+        txtResult14 = new javax.swing.JTextField();
+        txtResult15 = new javax.swing.JTextField();
+        txtResult16 = new javax.swing.JTextField();
+        txtResult17 = new javax.swing.JTextField();
+        txtResult18 = new javax.swing.JTextField();
+        txtResult19 = new javax.swing.JTextField();
+        txtResult20 = new javax.swing.JTextField();
+        btnReturn = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lblTeam2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblTeam4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblTeam6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblTeam8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblTeam10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblTeam12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblTeam14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblTeam16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblTeam18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblTeam20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        btnSimulateResults.setText("Simulate Results");
+        btnSimulateResults.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSimulateResults.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimulateResultsActionPerformed(evt);
+            }
+        });
+
+        lblTitle.setFont(new java.awt.Font("Perpetua Titling MT", 0, 24)); // NOI18N
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        btnConfirm.setText("Confirm Results");
+        btnConfirm.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmActionPerformed(evt);
+            }
+        });
+
+        txtResult1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtResult1KeyPressed(evt);
+            }
+        });
+
+        btnReturn.setText("<");
+        btnReturn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(146, 146, 146)
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTeam3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtResult3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtResult4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTeam4, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTeam5, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtResult5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtResult6, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTeam6, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTeam7, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtResult7, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtResult8, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTeam8, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTeam9, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtResult9, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtResult10, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTeam10, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTeam11, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtResult11, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtResult12, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTeam12, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTeam13, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtResult13, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtResult14, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTeam14, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblTeam19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTeam17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTeam15, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtResult19, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtResult20, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblTeam20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtResult15, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtResult16, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblTeam16, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtResult17, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtResult18, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblTeam18, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(200, 200, 200)
+                                        .addComponent(txtResult1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(txtResult2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTeam2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnSimulateResults, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtResult1, txtResult10, txtResult11, txtResult12, txtResult13, txtResult14, txtResult15, txtResult16, txtResult17, txtResult18, txtResult19, txtResult2, txtResult20, txtResult3, txtResult4, txtResult5, txtResult6, txtResult7, txtResult8, txtResult9});
+
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnReturn)
+                        .addGap(24, 24, 24))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtResult1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtResult2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTeam2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtResult3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTeam4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTeam3, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtResult4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtResult5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTeam6, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTeam5, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtResult6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTeam8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTeam7, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtResult7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtResult8, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTeam10, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTeam9, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtResult9, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtResult10, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTeam12, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTeam11, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtResult12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtResult11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTeam14, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTeam13, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtResult14, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtResult13, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblTeam16, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTeam15, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtResult16, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtResult15, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTeam18, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtResult18, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtResult17, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblTeam17, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTeam19, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtResult20, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtResult19, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblTeam20, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSimulateResults, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtResult1, txtResult10, txtResult11, txtResult12, txtResult13, txtResult14, txtResult15, txtResult16, txtResult17, txtResult18, txtResult19, txtResult2, txtResult20, txtResult3, txtResult4, txtResult5, txtResult6, txtResult7, txtResult8, txtResult9});
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSimulateResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimulateResultsActionPerformed
+        simulateGoals();
+    }//GEN-LAST:event_btnSimulateResultsActionPerformed
+
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
+        for (int i = 0; i < arrayResultText.length; i++) {
+            Match actualMatch = journey.getMatches().get(i);
+            for (int j = 0; j < arrayResultText[i].length; j++) {
+                validateText(arrayResultText[i][j]);
+                if (isValidText == false) {
+                    JOptionPane.showMessageDialog(null, "Please, write only numbers between 0 to 9");
+                    return;
+                }
+            }
+
+            actualMatch.setFirstTeamGoals(Integer.parseInt(arrayResultText[i][0].getText()));
+            actualMatch.setSecondTeamGoals(Integer.parseInt(arrayResultText[i][1].getText()));
+        }
+
+        journey.finalizeJourney();
+        league.incrementActualJourney();
+        league.updateTeamPositions();
+        mainFrame.initObjects();
+        setVisible(false);
+    }//GEN-LAST:event_btnConfirmActionPerformed
+
+    private void txtResult1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResult1KeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (Character.isLetter(c)) {
+
+        }
+    }//GEN-LAST:event_txtResult1KeyPressed
+
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnReturnActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new SimulateJourney().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConfirm;
+    private javax.swing.JButton btnReturn;
+    private javax.swing.JButton btnSimulateResults;
+    private javax.swing.JLabel lblTeam1;
+    private javax.swing.JLabel lblTeam10;
+    private javax.swing.JLabel lblTeam11;
+    private javax.swing.JLabel lblTeam12;
+    private javax.swing.JLabel lblTeam13;
+    private javax.swing.JLabel lblTeam14;
+    private javax.swing.JLabel lblTeam15;
+    private javax.swing.JLabel lblTeam16;
+    private javax.swing.JLabel lblTeam17;
+    private javax.swing.JLabel lblTeam18;
+    private javax.swing.JLabel lblTeam19;
+    private javax.swing.JLabel lblTeam2;
+    private javax.swing.JLabel lblTeam20;
+    private javax.swing.JLabel lblTeam3;
+    private javax.swing.JLabel lblTeam4;
+    private javax.swing.JLabel lblTeam5;
+    private javax.swing.JLabel lblTeam6;
+    private javax.swing.JLabel lblTeam7;
+    private javax.swing.JLabel lblTeam8;
+    private javax.swing.JLabel lblTeam9;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JTextField txtResult1;
+    private javax.swing.JTextField txtResult10;
+    private javax.swing.JTextField txtResult11;
+    private javax.swing.JTextField txtResult12;
+    private javax.swing.JTextField txtResult13;
+    private javax.swing.JTextField txtResult14;
+    private javax.swing.JTextField txtResult15;
+    private javax.swing.JTextField txtResult16;
+    private javax.swing.JTextField txtResult17;
+    private javax.swing.JTextField txtResult18;
+    private javax.swing.JTextField txtResult19;
+    private javax.swing.JTextField txtResult2;
+    private javax.swing.JTextField txtResult20;
+    private javax.swing.JTextField txtResult3;
+    private javax.swing.JTextField txtResult4;
+    private javax.swing.JTextField txtResult5;
+    private javax.swing.JTextField txtResult6;
+    private javax.swing.JTextField txtResult7;
+    private javax.swing.JTextField txtResult8;
+    private javax.swing.JTextField txtResult9;
+    // End of variables declaration//GEN-END:variables
+}
