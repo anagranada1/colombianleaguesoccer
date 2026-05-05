@@ -5,9 +5,11 @@ import javax.swing.table.AbstractTableModel;
 
 public class ModelTeamsTable extends AbstractTableModel {
 
-    List<Team> teams;
-    String[] COLUMNS = {"Position", "Name", "Match Played", "Won Matches", "Lost Matches",
+    private static final long serialVersionUID = 1L;
+    private static final String[] COLUMNS = {"Position", "Name", "Match Played", "Won Matches", "Lost Matches",
         "Draw Matches", "Goals Scored", "Goals Conceded", "Points"};
+
+    private final transient List<Team> teams;
 
     public ModelTeamsTable(List<Team> teams) {
         this.teams = teams;
@@ -20,7 +22,7 @@ public class ModelTeamsTable extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return this.COLUMNS.length;
+        return COLUMNS.length;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class ModelTeamsTable extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return this.COLUMNS[column];
+        return COLUMNS[column];
     }
 
 }
