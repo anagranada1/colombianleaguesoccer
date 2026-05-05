@@ -46,11 +46,11 @@ public class MatchTest {
 
         match.setResult();
 
-        assertEquals(3, home.getPoints());
-        assertEquals(1, home.getWonMatches());
-        assertEquals(0, home.getDrawMatches());
-        assertEquals(0, away.getPoints());
-        assertEquals(0, away.getWonMatches());
+        assertEquals(3, home.getStats().getPoints());
+        assertEquals(1, home.getStats().getWonMatches());
+        assertEquals(0, home.getStats().getDrawMatches());
+        assertEquals(0, away.getStats().getPoints());
+        assertEquals(0, away.getStats().getWonMatches());
     }
 
     @Test
@@ -63,12 +63,12 @@ public class MatchTest {
 
         match.setResult();
 
-        assertEquals(1, home.getPoints());
-        assertEquals(1, away.getPoints());
-        assertEquals(1, home.getDrawMatches());
-        assertEquals(1, away.getDrawMatches());
-        assertEquals(0, home.getWonMatches());
-        assertEquals(0, away.getWonMatches());
+        assertEquals(1, home.getStats().getPoints());
+        assertEquals(1, away.getStats().getPoints());
+        assertEquals(1, home.getStats().getDrawMatches());
+        assertEquals(1, away.getStats().getDrawMatches());
+        assertEquals(0, home.getStats().getWonMatches());
+        assertEquals(0, away.getStats().getWonMatches());
     }
 
     @Test
@@ -81,11 +81,11 @@ public class MatchTest {
 
         match.setResult();
 
-        assertEquals(1, home.getMatchPlayed());
-        assertEquals(1, away.getMatchPlayed());
-        assertEquals(4, home.getGoalsScored());
-        assertEquals(2, home.getGoalsConceded());
-        assertEquals(2, away.getGoalsScored());
-        assertEquals(4, away.getGoalsConceded());
+        assertEquals(1, home.getStats().getMatchPlayed());
+        assertEquals(1, away.getStats().getMatchPlayed());
+        assertEquals(4, home.getStats().getGoalsScored());
+        assertEquals(2, home.getStats().getGoalsConceded());
+        assertEquals(2, away.getStats().getGoalsScored());
+        assertEquals(4, away.getStats().getGoalsConceded());
     }
 }

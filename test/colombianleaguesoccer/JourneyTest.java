@@ -48,11 +48,11 @@ public class JourneyTest {
 
         journey.finalizeJourney();
 
-        assertEquals(3, a.getPoints());
-        assertEquals(0, b.getPoints());
-        assertEquals(1, c.getPoints());
-        assertEquals(1, d.getPoints());
-        assertEquals(1, a.getMatchPlayed());
-        assertEquals(1, d.getMatchPlayed());
+        assertEquals(3, a.getStats().getPoints());
+        assertEquals(0, b.getStats().getPoints());
+        assertEquals(1, c.getStats().getPoints());
+        assertEquals(1, d.getStats().getPoints());
+        assertEquals(1, a.getStats().getMatchPlayed());
+        assertEquals(1, d.getStats().getMatchPlayed());
     }
 }

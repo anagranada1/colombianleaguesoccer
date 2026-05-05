@@ -49,14 +49,14 @@ public class League {
     }
 
     public void updateTeamPositions() {
-        Collections.sort(teams, (firstTeam, secondTeam) -> Integer.compare(secondTeam.getPoints(), firstTeam.getPoints()));
+        Collections.sort(teams, (firstTeam, secondTeam) -> Integer.compare(secondTeam.getStats().getPoints(), firstTeam.getStats().getPoints()));
         int actualPosition = 1;
-        int previousPoints = teams.get(0).getPoints();
+        int previousPoints = teams.get(0).getStats().getPoints();
 
         for (Team actualTeam : teams) {
-            if (actualTeam.getPoints() != previousPoints) {
+            if (actualTeam.getStats().getPoints() != previousPoints) {
                 actualPosition += 1;
-                previousPoints = actualTeam.getPoints();
+                previousPoints = actualTeam.getStats().getPoints();
             }
             actualTeam.setPositionTeam(actualPosition);
         }

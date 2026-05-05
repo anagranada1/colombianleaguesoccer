@@ -32,19 +32,19 @@ public class ModelTeamsTable extends AbstractTableModel {
             case 1 ->
                 team.getName();
             case 2 ->
-                team.getMatchPlayed();
+                team.getStats().getMatchPlayed();
             case 3 ->
-                team.getWonMatches();
+                team.getStats().getWonMatches();
             case 4 ->
-                team.getLostMatches();
+                team.getStats().getLostMatches();
             case 5 ->
-                team.getDrawMatches();
+                team.getStats().getDrawMatches();
             case 6 ->
-                team.getGoalsScored();
+                team.getStats().getGoalsScored();
             case 7 ->
-                team.getGoalsConceded();
+                team.getStats().getGoalsConceded();
             case 8 ->
-                team.getPoints();
+                team.getStats().getPoints();
             default ->
                 team;
         };

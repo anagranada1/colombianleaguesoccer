@@ -8,12 +8,12 @@ public class ModelTeamsTableTest {
 
     private Team buildPopulatedTeam() {
         Team team = new Team("Once Caldas", 19);
-        team.setMatchPlayed(5);
-        team.setWonMatches(3);
-        team.setDrawMatches(1);
-        team.setGoalsScored(8);
-        team.setGoalsConceded(4);
-        team.setPoints(10);
+        team.getStats().setMatchPlayed(5);
+        team.getStats().setWonMatches(3);
+        team.getStats().setDrawMatches(1);
+        team.getStats().setGoalsScored(8);
+        team.getStats().setGoalsConceded(4);
+        team.getStats().setPoints(10);
         return team;
     }
 
@@ -24,13 +24,13 @@ public class ModelTeamsTableTest {
 
         assertEquals(team.getPositionTeam(), model.getValueAt(0, 0));
         assertEquals(team.getName(), model.getValueAt(0, 1));
-        assertEquals(team.getMatchPlayed(), model.getValueAt(0, 2));
-        assertEquals(team.getWonMatches(), model.getValueAt(0, 3));
-        assertEquals(team.getLostMatches(), model.getValueAt(0, 4));
-        assertEquals(team.getDrawMatches(), model.getValueAt(0, 5));
-        assertEquals(team.getGoalsScored(), model.getValueAt(0, 6));
-        assertEquals(team.getGoalsConceded(), model.getValueAt(0, 7));
-        assertEquals(team.getPoints(), model.getValueAt(0, 8));
+        assertEquals(team.getStats().getMatchPlayed(), model.getValueAt(0, 2));
+        assertEquals(team.getStats().getWonMatches(), model.getValueAt(0, 3));
+        assertEquals(team.getStats().getLostMatches(), model.getValueAt(0, 4));
+        assertEquals(team.getStats().getDrawMatches(), model.getValueAt(0, 5));
+        assertEquals(team.getStats().getGoalsScored(), model.getValueAt(0, 6));
+        assertEquals(team.getStats().getGoalsConceded(), model.getValueAt(0, 7));
+        assertEquals(team.getStats().getPoints(), model.getValueAt(0, 8));
     }
 
     @Test

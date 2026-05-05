@@ -54,25 +54,25 @@ public class LeagueTest {
     @Test
     public void updateTeamPositionsRanksByPointsDescending() {
         List<Team> teams = league.getTeams();
-        teams.get(0).setPoints(3);
-        teams.get(1).setPoints(9);
-        teams.get(2).setPoints(6);
+        teams.get(0).getStats().setPoints(3);
+        teams.get(1).getStats().setPoints(9);
+        teams.get(2).getStats().setPoints(6);
 
         league.updateTeamPositions();
 
         List<Team> sorted = league.getTeams();
-        assertEquals(9, sorted.get(0).getPoints());
-        assertEquals(6, sorted.get(1).getPoints());
-        assertTrue(sorted.get(0).getPoints() >= sorted.get(sorted.size() - 1).getPoints());
+        assertEquals(9, sorted.get(0).getStats().getPoints());
+        assertEquals(6, sorted.get(1).getStats().getPoints());
+        assertTrue(sorted.get(0).getStats().getPoints() >= sorted.get(sorted.size() - 1).getStats().getPoints());
     }
 
     @Test
     public void teamsTiedOnPointsShareTheSamePosition() {
         List<Team> teams = league.getTeams();
-        teams.get(0).setPoints(9);
-        teams.get(1).setPoints(6);
-        teams.get(2).setPoints(6);
-        teams.get(3).setPoints(3);
+        teams.get(0).getStats().setPoints(9);
+        teams.get(1).getStats().setPoints(6);
+        teams.get(2).getStats().setPoints(6);
+        teams.get(3).getStats().setPoints(3);
 
         league.updateTeamPositions();
 

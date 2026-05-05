@@ -10,21 +10,21 @@ public class TeamTest {
     @Test
     public void lostMatchesIsDerivedFromPlayedMinusWonAndDrawn() {
         Team team = new Team("Tolima", 7);
-        team.setMatchPlayed(10);
-        team.setWonMatches(4);
-        team.setDrawMatches(3);
+        team.getStats().setMatchPlayed(10);
+        team.getStats().setWonMatches(4);
+        team.getStats().setDrawMatches(3);
 
-        assertEquals(3, team.getLostMatches());
+        assertEquals(3, team.getStats().getLostMatches());
     }
 
     @Test
     public void lostMatchesIsZeroWhenAllOutcomesAreWinsOrDraws() {
         Team team = new Team("Pereira", 10);
-        team.setMatchPlayed(5);
-        team.setWonMatches(2);
-        team.setDrawMatches(3);
+        team.getStats().setMatchPlayed(5);
+        team.getStats().setWonMatches(2);
+        team.getStats().setDrawMatches(3);
 
-        assertEquals(0, team.getLostMatches());
+        assertEquals(0, team.getStats().getLostMatches());
     }
 
     @Test
