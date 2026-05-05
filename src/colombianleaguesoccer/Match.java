@@ -18,16 +18,8 @@ public class Match {
         return firstTeam;
     }
 
-    public void setFirstTeam(Team firstTeam) {
-        this.firstTeam = firstTeam;
-    }
-
     public Team getSecondTeam() {
         return secondTeam;
-    }
-
-    public void setSecondTeam(Team secondTeam) {
-        this.secondTeam = secondTeam;
     }
 
     public int getFirstTeamGoals() {

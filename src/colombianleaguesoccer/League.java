@@ -67,10 +67,10 @@ public class League {
         actualJourney = 0;
         journeys = buildEmptyJourneys();
         List<Team> rotation = new ArrayList<>(teams);
-        journeys.forEach(journey -> {
+        for (Journey journey : journeys) {
             fillJourney(journey, rotation);
             Collections.rotate(rotation, -1);
-        });
+        }
     }
 
     private List<Journey> buildEmptyJourneys() {
@@ -80,24 +80,21 @@ public class League {
     }
 
     private void fillJourney(Journey journey, List<Team> pool) {
-        pool.stream()
-            .takeWhile(t -> journey.getMatches().size() < MATCHES_PER_JOURNEY)
-            .forEach(copyTeam -> pairWithRivals(journey, copyTeam, pool));
+        for (Team copyTeam : pool) {
+            if (journey.getMatches().size() >= MATCHES_PER_JOURNEY) break;
+            pairWithRivals(journey, copyTeam, pool);
+        }
     }
 
     private void pairWithRivals(Journey journey, Team copyTeam, List<Team> pool) {
-        pool.stream()
-            .filter(rival -> canPair(journey, copyTeam, rival))
-            .forEach(rival -> {
+        for (Team rival : pool) {
+            if (copyTeam.getNextMatches().contains(rival)
+                    && journey.isAvailableTeam(copyTeam)
+                    && journey.isAvailableTeam(rival)) {
                 journey.addMatch(new Match(rival, copyTeam));
                 copyTeam.removeNextMatchTeamOption(rival);
-            });
-    }
-
-    private boolean canPair(Journey journey, Team copyTeam, Team rival) {
-        return copyTeam.getNextMatches().contains(rival)
-                && journey.isAvailableTeam(copyTeam)
-                && journey.isAvailableTeam(rival);
+            }
+        }
     }
     
     public boolean isFinalized(){
@@ -122,10 +119,6 @@ public class League {
 
     public List<Team> getTeams() {
         return teams;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
     }
 
 
