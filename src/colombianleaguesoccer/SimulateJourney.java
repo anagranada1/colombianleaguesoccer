@@ -1,8 +1,6 @@
 package colombianleaguesoccer;
 
 import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -11,12 +9,13 @@ import javax.swing.event.DocumentListener;
 public class SimulateJourney extends javax.swing.JFrame {
     
     
+    private static final Color INVALID_COLOR = new Color(255, 102, 102);
+
     private Journey journey;
     private javax.swing.JLabel[][] arrayTeamLabels;
     private javax.swing.JTextField[][] arrayResultText;
     private League league;
     private Main mainFrame;
-    private boolean isValidText = false;
 
     public void setMainFrame(Main mainFrame) {
         this.mainFrame = mainFrame;
@@ -43,8 +42,8 @@ public class SimulateJourney extends javax.swing.JFrame {
         for (int i = 0; i < 10; i++) {
             arrayTeamLabels[i][0].setText(journey.getMatches().get(i).getFirstTeam().getName());
             arrayTeamLabels[i][1].setText(journey.getMatches().get(i).getSecondTeam().getName());
-            arrayResultText[i][0].setText(journey.getMatches().get(i).getFirstTeamGoals() + "");
-            arrayResultText[i][1].setText(journey.getMatches().get(i).getSecondTeamGoals() + "");
+            arrayResultText[i][0].setText(String.valueOf(journey.getMatches().get(i).getFirstTeamGoals()));
+            arrayResultText[i][1].setText(String.valueOf(journey.getMatches().get(i).getSecondTeamGoals()));
         }
     }
 
@@ -81,71 +80,41 @@ public class SimulateJourney extends javax.swing.JFrame {
     }
 
     public void validateTxtFields() {
-        for (int i = 0; i <= arrayResultText.length - 1; i++) {
-            final int pos = i;
-            arrayResultText[i][0].getDocument().addDocumentListener(new DocumentListener() {
-                public void insertUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][0]);
-                }
-
-                public void removeUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][0]);
-                }
-
-                public void changedUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][0]);
-                }
-            });
-            arrayResultText[i][1].getDocument().addDocumentListener(new DocumentListener() {
-                public void insertUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][1]);
-                }
-
-                public void removeUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][1]);
-                }
-
-                public void changedUpdate(DocumentEvent e) {
-                    validateText(arrayResultText[pos][1]);
-                }
-            });
+        for (int i = 0; i < arrayResultText.length; i++) {
+            arrayResultText[i][0].getDocument().addDocumentListener(createFieldValidator(arrayResultText[i][0]));
+            arrayResultText[i][1].getDocument().addDocumentListener(createFieldValidator(arrayResultText[i][1]));
         }
     }
 
-    private void validateText(javax.swing.JTextField txtField) {
-        isValidText = false;
-        if (!txtField.getText().isEmpty()) {
-            try {
-                int value = Integer.parseInt(txtField.getText());
-                if (value < 0 || value > 9) {
-                    txtField.setBackground(new Color(255, 102, 102));
-                } else {
-                    txtField.setBackground(Color.WHITE);
-                    isValidText = true;
-                }
-            } catch (NumberFormatException ex) {
-                txtField.setBackground(new Color(255, 102, 102));
-            }
-        } else {
-            txtField.setBackground(new Color(255, 102, 102));
-        }
-        txtField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if (((c < '0') || (c > '9') || isValidText) && (c != KeyEvent.VK_BACK_SPACE)) {
-                    e.consume();
-                }
+    private DocumentListener createFieldValidator(javax.swing.JTextField field) {
+        return new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { validateText(field); }
+            public void removeUpdate(DocumentEvent e) { validateText(field); }
+            public void changedUpdate(DocumentEvent e) { validateText(field); }
+        };
+    }
 
-            }
-        });
+    private boolean validateText(javax.swing.JTextField txtField) {
+        boolean valid = isGoalValid(txtField.getText());
+        txtField.setBackground(valid ? Color.WHITE : INVALID_COLOR);
+        return valid;
+    }
+
+    private boolean isGoalValid(String text) {
+        if (text.isEmpty()) return false;
+        try {
+            int value = Integer.parseInt(text);
+            return value >= 0 && value <= 9;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 
     public void simulateGoals() {
         Random rand = new Random();
         for (int i = 0; i < arrayResultText.length; i++) {
             for (int j = 0; j < arrayResultText[i].length; j++) {
-                arrayResultText[i][j].setText(rand.nextInt(0, 10) + "");
+                arrayResultText[i][j].setText(String.valueOf(rand.nextInt(0, 10)));
             }
         }
     }
@@ -478,8 +447,7 @@ public class SimulateJourney extends javax.swing.JFrame {
         for (int i = 0; i < arrayResultText.length; i++) {
             Match actualMatch = journey.getMatches().get(i);
             for (int j = 0; j < arrayResultText[i].length; j++) {
-                validateText(arrayResultText[i][j]);
-                if (isValidText == false) {
+                if (!validateText(arrayResultText[i][j])) {
                     JOptionPane.showMessageDialog(null, "Please, write only numbers between 0 to 9");
                     return;
                 }
@@ -496,12 +464,8 @@ public class SimulateJourney extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_btnConfirmActionPerformed
 
+    @SuppressWarnings("java:S1186")
     private void txtResult1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResult1KeyPressed
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (Character.isLetter(c)) {
-
-        }
     }//GEN-LAST:event_txtResult1KeyPressed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
@@ -511,7 +475,7 @@ public class SimulateJourney extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -524,23 +488,13 @@ public class SimulateJourney extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SimulateJourney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SimulateJourney().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new SimulateJourney().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
