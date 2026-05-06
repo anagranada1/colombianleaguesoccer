@@ -11,6 +11,10 @@ permissions:
   contents: read
   pull-requests: read
 
+env:
+  JUNIT_VERSION: 1.11.4
+  JACOCO_VERSION: 0.8.12
+
 jobs:
   sonarcloud:
     name: Build and analyze
@@ -35,8 +39,53 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
+      - name: Cache test tooling
+        uses: actions/cache@v4
+        with:
+          path: libs
+          key: test-tooling-junit-${{ env.JUNIT_VERSION }}-jacoco-${{ env.JACOCO_VERSION }}
+
       - name: Build with Ant
         run: ant -noinput -buildfile build.xml compile
+
+      - name: Download test tooling
+        run: |
+          mkdir -p libs
+          [ -f libs/junit-platform-console-standalone.jar ] || \
+            curl -fsSL -o libs/junit-platform-console-standalone.jar \
+              https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${JUNIT_VERSION}/junit-platform-console-standalone-${JUNIT_VERSION}.jar
+          [ -f libs/jacocoagent.jar ] || \
+            curl -fsSL -o libs/jacocoagent.jar \
+              https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/${JACOCO_VERSION}/org.jacoco.agent-${JACOCO_VERSION}-runtime.jar
+          [ -f libs/jacococli.jar ] || \
+            curl -fsSL -o libs/jacococli.jar \
+              https://repo1.maven.org/maven2/org/jacoco/org.jacoco.cli/${JACOCO_VERSION}/org.jacoco.cli-${JACOCO_VERSION}-nodeps.jar
+
+      - name: Compile tests
+        run: |
+          mkdir -p build/test/classes
+          find test -name "*.java" > sources.txt
+          javac --release 18 \
+            -cp "build/classes:libs/junit-platform-console-standalone.jar" \
+            -d build/test/classes @sources.txt
+
+      - name: Run tests with JaCoCo
+        run: |
+          mkdir -p build/test-reports
+          java -javaagent:libs/jacocoagent.jar=destfile=build/jacoco.exec,includes=colombianleaguesoccer.* \
+            -jar libs/junit-platform-console-standalone.jar execute \
+            --class-path "build/classes:build/test/classes" \
+            --scan-class-path build/test/classes \
+            --reports-dir build/test-reports \
+            --fail-if-no-tests
+
+      - name: Generate JaCoCo XML report
+        run: |
+          java -jar libs/jacococli.jar report build/jacoco.exec \
+            --classfiles build/classes/colombianleaguesoccer \
+            --sourcefiles src \
+            --xml build/jacoco.xml \
+            --html build/jacoco-html
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v4
@@ -49,6 +98,11 @@ jobs:
             -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY || 'ana2002granada_ColombianLeagueSoccer' }}
             -Dsonar.projectName=ColombianLeagueSoccer
             -Dsonar.sources=src
+            -Dsonar.tests=test
             -Dsonar.java.binaries=build/classes
+            -Dsonar.java.test.binaries=build/test/classes
             -Dsonar.java.source=18
             -Dsonar.sourceEncoding=UTF-8
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/jacoco.xml
+            -Dsonar.coverage.exclusions=src/colombianleaguesoccer/Main.java,src/colombianleaguesoccer/SimulateJourney.java
+            -Dsonar.junit.reportPaths=build/test-reports
